@@ -1,23 +1,28 @@
-import { useGetPlanetsQuery } from "../../entities/planets/api/service"
-// import { planetsApi } from "../../entities/planets/api/service"
+import { Alert } from "@mui/material";
+import { useGetPlanetsQuery } from "../../entities/planets/api/service";
+import { DataGrid } from "@mui/x-data-grid";
+import { columns } from "./lib/columns";
 
 export function PlanetsPage() {
-  const { data } = useGetPlanetsQuery('planets');
-  if (!data) {
-    return 'error'
-  }
-  console.log(data)
+  const { data, isLoading, error } = useGetPlanetsQuery('');
+
+  if (error) {
+    return <Alert>Сетевая ошибка</Alert>
+  };
+
   return (
-    <>
-      <ul>
-        {data.results.map((planet) => {
-          return (
-            <li key={planet.name}>
-              <p>{planet.name}</p>
-            </li>
-          )
-        })}
-      </ul>
-    </>
+    <div>
+      <DataGrid
+        rows={data?.results}
+        columns={columns}
+        loading={isLoading}
+        slotProps={{
+          loadingOverlay: {
+            variant: 'skeleton',
+            noRowsVariant: 'skeleton',
+          },
+        }}
+      />
+    </div>
   )
 };

@@ -1,0 +1,20 @@
+export type StarshipType = {
+  name: string;
+  model: string;
+  starship_class: string;
+  manufacturer: string;
+  cost_in_credits: number; 
+  length: number; 
+  crew: number; 
+  passengers: number; 
+  max_atmosphering_speed: string; 
+  hyperdrive_rating: number; 
+  MGLT: number; 
+  cargo_capacity: number; 
+  consumables: string; 
+  films: string[];
+  pilots: string[];
+  url: string;
+  created: string;
+  edited: string;
+};

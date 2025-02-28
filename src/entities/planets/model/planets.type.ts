@@ -1,7 +1,17 @@
 export type PlanetsType = {
-  name: string,
-  orbital_period: number;
+  id: string;
+  name: string;
+  diameter: number;
   rotation_period: number;
-  climate: string,
-  url: string
+  orbital_period: number;
+  surface_water: number;
+  climate: string;
+  created: string;
+  edited: string;
+  gravity: string;
+  population: string;
+  terrain: string;
+  url: string;
+  residents: string[];
+  films: string[];
 }
