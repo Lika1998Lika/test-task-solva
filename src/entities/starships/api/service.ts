@@ -18,7 +18,7 @@ export const starshipsApi = createApi({
       transformResponse: (response: StarshipsDTO) => {
         return {
           ...response,
-          results: response.results.map((item, index) => ({ ...item, id: String(index + 2) }))
+          results: response.results.map((item, index) => ({ ...item, id: String(index + 1) }))
         }
       }
     }),

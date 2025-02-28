@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom"
 import { useGetStarshipByIdQuery } from "../../entities/starships/api/service";
 import { Alert, Box, Button, Container, Typography } from "@mui/material";
 import { useState } from "react";
+import { EditStarshipForm } from "../../features/edit-starship";
+import { StarshipType } from "../../entities/starships";
 
 export function DetailsStarshipPage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -14,11 +16,13 @@ export function DetailsStarshipPage() {
 
   const { data, error, isLoading } = useGetStarshipByIdQuery(id);
 
+  const [localData, setLocalData] = useState(data);
+
   if (error) {
     return <Alert>Сетевая ошибка</Alert>
   };
 
-  if (!data || isLoading) {
+  if (!data || isLoading || !localData) {
     return <Typography>Загрузка...</Typography>
   };
 
@@ -27,32 +31,30 @@ export function DetailsStarshipPage() {
     setIsEditing(!isEditing);
   };
 
-
+  const onSubmit = (value: StarshipType) => {
+    setLocalData(value),
+      setIsEditing(false)
+  }
   return (
     <Container sx={{ height: "100vh", mt: 4 }}>
-      <Typography variant="h3" gutterBottom sx={{ textAlign: "center" }}>
-        {data.name}
-      </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 600, margin: "auto" }}>
         {
           isEditing ? (
-            <h1>hghhg</h1>
+            <EditStarshipForm starship={localData} onSubmit={onSubmit} />
           ) : (
             <>
-              <Typography variant="h5">Model: {data.model} km</Typography>
-              <Typography variant="h5">Passengers: {data.passengers}</Typography>
-              <Typography variant="h5">Manufacturer: {data.manufacturer}</Typography>
-              <Typography variant="h5">length: {data.length}</Typography>
-              <Typography variant="h5">Consumables: {data.consumables}</Typography>
+              <Typography variant="h5">Name: {localData.name}</Typography>
+              <Typography variant="h5">Model: {localData.model} km</Typography>
+              <Typography variant="h5">Passengers: {localData.passengers}</Typography>
+              <Typography variant="h5">Manufacturer: {localData.manufacturer}</Typography>
+              <Typography variant="h5">length: {localData.length}</Typography>
+              <Typography variant="h5">Consumables: {localData.consumables}</Typography>
+              <Button variant="contained" onClick={handleEditToggle}>
+                Редактировать
+              </Button>
             </>
           )
         }
-        <Button
-          variant="contained"
-          onClick={handleEditToggle}
-        >
-          {isEditing ? 'Сохранить' : 'Редактировать'}
-        </Button>
       </Box>
     </Container>
   )
