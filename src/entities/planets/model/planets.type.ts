@@ -1,5 +1,4 @@
 export type PlanetsType = {
-  id: string;
   name: string;
   diameter: number;
   rotation_period: number;
