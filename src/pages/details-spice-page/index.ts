@@ -1,0 +1,1 @@
+export { DetailsSpicePage } from './details-spice-page'

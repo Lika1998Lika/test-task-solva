@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../../../shared/const";
 import { SpeciesType } from "../model/species.type";
-import {v4} from 'uuid' ;
 
 
 type SpeciesDTO = {
@@ -20,10 +19,14 @@ export const speciesApi = createApi({
       transformResponse: (response: SpeciesDTO) => {
         return {
           ...response,
-          results: response.results.map((item) => ({ ...item, id: v4() }))
+          results: response.results.map((item, index) => ({ ...item, id: String(index + 1) }))
         }
       }
     }),
+
+    getSpiceById: builder.query<SpeciesType, string>({
+      query: (id: string) => `species/${id}`,
+    })
   }),
 })
-export const { useGetSpeciesQuery } = speciesApi;
+export const { useGetSpeciesQuery, useGetSpiceByIdQuery } = speciesApi;

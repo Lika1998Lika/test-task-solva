@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { PlanetsType } from "../model/planets.type";
 import { BASE_URL } from "../../../shared/const";
-import {v4} from 'uuid' ;
 
 type PlanetsDTO = {
   results: PlanetsType[],
@@ -19,11 +18,15 @@ export const planetsApi = createApi({
       transformResponse: (response: PlanetsDTO) => {
         return {
           ...response,
-          results: response.results.map((item) => ({ ...item, id: v4() }))
+          results: response.results.map((item, index) => ({ ...item, id: String(index + 1) }))
         }
       }
     }),
+
+    getPlanetById: builder.query<PlanetsType, string>({
+      query: (id: string) => `planets/${id}`,
+    })
   }),
 })
 
-export const  {useGetPlanetsQuery} = planetsApi;
+export const  {useGetPlanetsQuery, useGetPlanetByIdQuery} = planetsApi;

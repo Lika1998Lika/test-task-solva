@@ -1,0 +1,1 @@
+export { DetailsStarshipPage } from './details-starship-page';

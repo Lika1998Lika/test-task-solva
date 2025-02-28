@@ -1,4 +1,5 @@
 export type StarshipType = {
+  id: string;
   name: string;
   model: string;
   starship_class: string;
