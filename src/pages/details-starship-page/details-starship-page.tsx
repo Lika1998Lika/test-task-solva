@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { EditStarshipForm } from "../../features/edit-starship";
 import { StarshipType } from "../../entities/starships";
 import { CircularProgressLoading } from "../../shared/lib/circular-progress";
-import { ArrowBackIcon } from "../../shared/lib/arrow-back-icon";
 import { AppRoute } from "../../shared/const";
+import { ArrowBackIcon } from "../../shared/lib/arrow-back-icon";
 
 export function DetailsStarshipPage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -48,8 +48,8 @@ export function DetailsStarshipPage() {
 
   return (
     <Container sx={{ height: "100vh", mt: 4 }}>
+      <ArrowBackIcon to={AppRoute.StarshipsPage} />
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 600, margin: "auto" }}>
-        <Box>{ArrowBackIcon(AppRoute.StarshipsPage)}</Box>
         {
           isEditing && localData ? (
             <EditStarshipForm starship={localData} onSubmit={onSubmit} onCancel={onCancel} />

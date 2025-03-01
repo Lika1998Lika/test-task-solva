@@ -1,7 +1,12 @@
 import { useParams } from "react-router-dom"
 import { useGetPlanetByIdQuery } from "../../entities/planets/api/service"
 import { Alert, Box, Button, Container, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { EditPlanetForm } from "../../features/edit-planet";
+import { CircularProgressLoading } from "../../shared/lib/circular-progress";
+import { AppRoute } from "../../shared/const";
+import { PlanetsType } from "../../entities/planets";
+import { ArrowBackIcon } from "../../shared/lib/arrow-back-icon";
 
 export function DetailsPlanetPage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -12,46 +17,55 @@ export function DetailsPlanetPage() {
     throw new Error('Planet id is undefind')
   };
 
-  const { data, error, isLoading } = useGetPlanetByIdQuery(id);
+  const { data, error, isLoading, isSuccess } = useGetPlanetByIdQuery(id);
+  const [localData, setLocalData] = useState(data);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setLocalData(data);
+    };
+  }, [data, isSuccess]);
 
   if (error) {
-    return <Alert>Сетевая ошибка</Alert>
+    return <Alert color="error">{`Не удалось получить по id: ${id}`}. Попробуйте позже</Alert>
   };
 
-  if (!data || isLoading) {
-    return <Typography>Загрузка...</Typography>
-  };
+  if (isLoading) return <CircularProgressLoading />
 
+  const onSubmit = (value: PlanetsType) => {
+    setLocalData(value),
+      setIsEditing(false)
+  };
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
 
+  const onCancel = () => {
+    setIsEditing(false)
+  };
+
   return (
     <Container sx={{ height: "100vh", mt: 4 }}>
-      <Typography variant="h3" gutterBottom sx={{ textAlign: "center" }}>
-        {data.name}
-      </Typography>
+      <ArrowBackIcon to={AppRoute.PlanetsPage} />
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 600, margin: "auto" }}>
         {
-          isEditing ? (
-            <h1>hghhg</h1>
+          isEditing && localData ? (
+            <EditPlanetForm planet={localData} onSubmit={onSubmit} onCancel={onCancel} />
           ) : (
             <>
-              <Typography variant="h5">Diameter: {data.diameter} km</Typography>
-              <Typography variant="h5">Climate: {data.climate}</Typography>
-              <Typography variant="h5">Gravity: {data.gravity}</Typography>
-              <Typography variant="h5">Population: {data.population}</Typography>
-              <Typography variant="h5">Terrain: {data.terrain}</Typography>
+              <Typography variant="h5">Название: {localData?.name}</Typography>
+              <Typography variant="h5">Диаметр: {localData?.diameter} km</Typography>
+              <Typography variant="h5">Климат: {localData?.climate}</Typography>
+              <Typography variant="h5">Гравитация: {localData?.gravity}</Typography>
+              <Typography variant="h5">Население: {localData?.population}</Typography>
+              <Typography variant="h5">Местность: {localData?.terrain}</Typography>
+              <Button variant="contained" onClick={handleEditToggle}>
+                Редактировать
+              </Button>
             </>
           )
         }
-        <Button
-          variant="contained"
-          onClick={handleEditToggle}
-        >
-          {isEditing ? 'Сохранить' : 'Редактировать'}
-        </Button>
       </Box>
     </Container>
   )

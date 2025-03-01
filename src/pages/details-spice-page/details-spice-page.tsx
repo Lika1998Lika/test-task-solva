@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { SpeciesType } from "../../entities/species";
 import { EditSpiceForm } from "../../features/edit-spice";
 import { AppRoute } from "../../shared/const";
-import { ArrowBackIcon } from "../../shared/lib/arrow-back-icon";
 import { CircularProgressLoading } from "../../shared/lib/circular-progress";
+import { ArrowBackIcon } from "../../shared/lib/arrow-back-icon";
 
 export function DetailsSpicePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -48,8 +48,8 @@ export function DetailsSpicePage() {
 
   return (
     <Container sx={{ height: "100vh", mt: 4 }}>
+      <ArrowBackIcon to={AppRoute.SpeciesPage} />
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 600, margin: "auto" }}>
-        <Box>{ArrowBackIcon(AppRoute.SpeciesPage)}</Box>
         {
           isEditing && localData ? (
             <EditSpiceForm spice={localData} onSubmit={onSubmit} onCancel={onCancel} />

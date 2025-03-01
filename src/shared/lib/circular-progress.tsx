@@ -1,6 +1,6 @@
 import { Stack, CircularProgress } from "@mui/material"
 
-export const CircularProgressLoading = () => {
+export function CircularProgressLoading() {
   return (
     <Stack alignItems="center" justifyContent="center" height="100%">
       <CircularProgress

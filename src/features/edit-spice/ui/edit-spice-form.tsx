@@ -14,14 +14,7 @@ export const EditSpiceForm = ({ spice, onSubmit, onCancel }: Props) => {
 
   const formMethodsEdit = useForm<SpeciesType>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      name: spice.name,
-      language: spice.language,
-      classification: spice.classification,
-      designation: spice.designation,
-      average_lifespan: spice.average_lifespan,
-      average_height: spice.average_height
-    }
+    defaultValues: spice
   });
 
   const handleSubmit = formMethodsEdit.handleSubmit(
@@ -59,12 +52,14 @@ export const EditSpiceForm = ({ spice, onSubmit, onCancel }: Props) => {
         <TextField
           error={!!formMethodsEdit.formState.errors['average_lifespan']}
           helperText={formMethodsEdit.formState.errors['average_lifespan']?.message}
+          type="number"
           label="Средняя продолжительность жизни"
           {...formMethodsEdit.register('average_lifespan')}
         />
         <TextField
           error={!!formMethodsEdit.formState.errors['average_height']}
           helperText={formMethodsEdit.formState.errors['average_height']?.message}
+          type="number"
           label="Средний рост"
           {...formMethodsEdit.register('average_height')}
         />
@@ -73,5 +68,5 @@ export const EditSpiceForm = ({ spice, onSubmit, onCancel }: Props) => {
         <Button variant="outlined" onClick={onCancel}>Отмена</Button>
       </Stack>
     </form>
-  )
-}
+  );
+};

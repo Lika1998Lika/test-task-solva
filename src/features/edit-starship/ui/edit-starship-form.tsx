@@ -14,14 +14,7 @@ export const EditStarshipForm = ({ starship, onSubmit, onCancel }: Props) => {
 
   const formMethodsEdit = useForm<StarshipType>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      name: starship.name,
-      consumables: starship.consumables,
-      length: starship.length,
-      manufacturer: starship.manufacturer,
-      model: starship.model,
-      passengers: starship.passengers,
-    }
+    defaultValues: starship
   });
 
   const handleSubmit = formMethodsEdit.handleSubmit(
@@ -48,6 +41,7 @@ export const EditStarshipForm = ({ starship, onSubmit, onCancel }: Props) => {
           error={!!formMethodsEdit.formState.errors['passengers']}
           helperText={formMethodsEdit.formState.errors['passengers']?.message}
           label="Пассажиры"
+          type="number"
           {...formMethodsEdit.register('passengers')}
         />
         <TextField
@@ -59,6 +53,7 @@ export const EditStarshipForm = ({ starship, onSubmit, onCancel }: Props) => {
         <TextField
           error={!!formMethodsEdit.formState.errors['length']}
           helperText={formMethodsEdit.formState.errors['length']?.message}
+          type="number"
           label="Длина"
           {...formMethodsEdit.register('length')}
         />

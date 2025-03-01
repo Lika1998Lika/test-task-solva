@@ -14,8 +14,6 @@ export function SpeciesPage() {
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <DataGrid
         rows={data?.results}
-        onRowClick={(row) => { console.log(row.id) }}
-
         columns={columns}
         loading={isLoading}
         slotProps={{

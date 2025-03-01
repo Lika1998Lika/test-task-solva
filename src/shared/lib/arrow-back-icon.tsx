@@ -2,11 +2,14 @@ import { IconButton, Stack } from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Link } from "react-router-dom";
 
-export const ArrowBackIcon = (str: string) => {
+type Props = {
+  to: string
+}
+export const ArrowBackIcon = ({ to }: Props) => {
   return (
     <Stack justifyContent="flex-start" direction="row">
       <IconButton size="small">
-        <Link to={str} style={{ textDecoration: "none" }}>
+        <Link to={to} style={{ textDecoration: "none" }}>
           <ArrowBackIosNewIcon />
         </Link>
       </IconButton>
