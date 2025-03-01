@@ -1,7 +1,12 @@
 import { useParams } from "react-router-dom"
 import { useGetSpiceByIdQuery } from "../../entities/species/api/service";
 import { Alert, Box, Button, Container, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { SpeciesType } from "../../entities/species";
+import { EditSpiceForm } from "../../features/edit-spice";
+import { AppRoute } from "../../shared/const";
+import { ArrowBackIcon } from "../../shared/lib/arrow-back-icon";
+import { CircularProgressLoading } from "../../shared/lib/circular-progress";
 
 export function DetailsSpicePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -12,46 +17,54 @@ export function DetailsSpicePage() {
     throw new Error('Planet id is undefind')
   };
 
-  const { data, error, isLoading } = useGetSpiceByIdQuery(id);
+  const { data, error, isLoading, isSuccess } = useGetSpiceByIdQuery(id);
+
+  const [localData, setLocalData] = useState(data);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setLocalData(data);
+    };
+  }, [data, isSuccess]);
+
+  if (isLoading) return <CircularProgressLoading />
 
   if (error) {
-    return <Alert>Сетевая ошибка</Alert>
+    return <Alert color="error">{`Не удалось получить по id: ${id}`}. Попробуйте позже</Alert>
   };
-
-  if (!data || isLoading) {
-    return <Typography>Загрузка...</Typography>
-  };
-
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
 
+  const onSubmit = (value: SpeciesType) => {
+    setLocalData(value),
+      setIsEditing(false)
+  }
+
+  const onCancel = () => {
+    setIsEditing(false)
+  };
+
   return (
     <Container sx={{ height: "100vh", mt: 4 }}>
-      <Typography variant="h3" gutterBottom sx={{ textAlign: "center" }}>
-        {data.name}
-      </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 600, margin: "auto" }}>
+        <Box>{ArrowBackIcon(AppRoute.SpeciesPage)}</Box>
         {
-          isEditing ? (
-            <h1>hghhg</h1>
+          isEditing && localData ? (
+            <EditSpiceForm spice={localData} onSubmit={onSubmit} onCancel={onCancel} />
           ) : (
             <>
-              <Typography variant="h5">Language: {data.language} km</Typography>
-              <Typography variant="h5">Classification: {data.classification}</Typography>
-              <Typography variant="h5">Designation: {data.designation}</Typography>
-              <Typography variant="h5">Average lifespan: {data.average_lifespan}</Typography>
-              <Typography variant="h5">Average height: {data.average_height}</Typography>
+              <Typography variant="h5">Название: {localData?.name}</Typography>
+              <Typography variant="h5">Язык: {localData?.language} km</Typography>
+              <Typography variant="h5">Классификация: {localData?.classification}</Typography>
+              <Typography variant="h5">Обозначение: {localData?.designation}</Typography>
+              <Typography variant="h5">Средняя продолжительность жизни: {localData?.average_lifespan}</Typography>
+              <Typography variant="h5">Средний рост: {localData?.average_height}</Typography>
+              <Button variant="contained" onClick={handleEditToggle}> Редактировать</Button>
             </>
           )
         }
-        <Button
-          variant="contained"
-          onClick={handleEditToggle}
-        >
-          {isEditing ? 'Сохранить' : 'Редактировать'}
-        </Button>
       </Box>
     </Container>
   )

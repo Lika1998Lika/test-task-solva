@@ -1,9 +1,12 @@
 import { useParams } from "react-router-dom"
 import { useGetStarshipByIdQuery } from "../../entities/starships/api/service";
 import { Alert, Box, Button, Container, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EditStarshipForm } from "../../features/edit-starship";
 import { StarshipType } from "../../entities/starships";
+import { CircularProgressLoading } from "../../shared/lib/circular-progress";
+import { ArrowBackIcon } from "../../shared/lib/arrow-back-icon";
+import { AppRoute } from "../../shared/const";
 
 export function DetailsStarshipPage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -14,18 +17,21 @@ export function DetailsStarshipPage() {
     throw new Error('Planet id is undefind')
   };
 
-  const { data, error, isLoading } = useGetStarshipByIdQuery(id);
+  const { data, error, isLoading, isSuccess } = useGetStarshipByIdQuery(id);
 
   const [localData, setLocalData] = useState(data);
 
+  useEffect(() => {
+    if (isSuccess) {
+      setLocalData(data);
+    };
+  }, [data, isSuccess]);
+
+  if (isLoading) return <CircularProgressLoading />
+
   if (error) {
-    return <Alert>Сетевая ошибка</Alert>
+    return <Alert color="error">{`Не удалось получить по id: ${id}`}. Попробуйте позже</Alert>
   };
-
-  if (!data || isLoading || !localData) {
-    return <Typography>Загрузка...</Typography>
-  };
-
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
@@ -35,20 +41,26 @@ export function DetailsStarshipPage() {
     setLocalData(value),
       setIsEditing(false)
   }
+
+  const onCancel = () => {
+    setIsEditing(false)
+  };
+
   return (
     <Container sx={{ height: "100vh", mt: 4 }}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 600, margin: "auto" }}>
+        <Box>{ArrowBackIcon(AppRoute.StarshipsPage)}</Box>
         {
-          isEditing ? (
-            <EditStarshipForm starship={localData} onSubmit={onSubmit} />
+          isEditing && localData ? (
+            <EditStarshipForm starship={localData} onSubmit={onSubmit} onCancel={onCancel} />
           ) : (
             <>
-              <Typography variant="h5">Name: {localData.name}</Typography>
-              <Typography variant="h5">Model: {localData.model} km</Typography>
-              <Typography variant="h5">Passengers: {localData.passengers}</Typography>
-              <Typography variant="h5">Manufacturer: {localData.manufacturer}</Typography>
-              <Typography variant="h5">length: {localData.length}</Typography>
-              <Typography variant="h5">Consumables: {localData.consumables}</Typography>
+              <Typography variant="h5">Название: {localData?.name}</Typography>
+              <Typography variant="h5">Модель: {localData?.model} km</Typography>
+              <Typography variant="h5">Пассажиры: {localData?.passengers}</Typography>
+              <Typography variant="h5">Производитель: {localData?.manufacturer}</Typography>
+              <Typography variant="h5">Длина: {localData?.length}</Typography>
+              <Typography variant="h5">Расходные материалы: {localData?.consumables}</Typography>
               <Button variant="contained" onClick={handleEditToggle}>
                 Редактировать
               </Button>

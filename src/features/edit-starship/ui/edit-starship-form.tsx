@@ -7,20 +7,12 @@ import { Button, Stack, TextField } from "@mui/material";
 type Props = {
   starship: StarshipType,
   onSubmit: (value: StarshipType) => void;
+  onCancel: () => void;
 };
 
-type StarshipPropsForm = {
-  name: string;
-  consumables: string;
-  length: number | null;
-  manufacturer: string;
-  model: string;
-  passengers: number | null;
-}
+export const EditStarshipForm = ({ starship, onSubmit, onCancel }: Props) => {
 
-export const EditStarshipForm = ({ starship, onSubmit }: Props) => {
-
-  const formMethodsEdit = useForm({
+  const formMethodsEdit = useForm<StarshipType>({
     resolver: yupResolver(schema),
     defaultValues: {
       name: starship.name,
@@ -47,37 +39,37 @@ export const EditStarshipForm = ({ starship, onSubmit }: Props) => {
           {...formMethodsEdit.register('name')}
         />
         <TextField
-          error={!!formMethodsEdit.formState.errors['consumables']}
-          helperText={formMethodsEdit.formState.errors['consumables']?.message}
-          label="consumables"
-          {...formMethodsEdit.register('consumables')}
-        />
-        <TextField
-          error={!!formMethodsEdit.formState.errors['length']}
-          helperText={formMethodsEdit.formState.errors['length']?.message}
-          label="length"
-          {...formMethodsEdit.register('length')}
-        />
-        <TextField
-          error={!!formMethodsEdit.formState.errors['manufacturer']}
-          helperText={formMethodsEdit.formState.errors['manufacturer']?.message}
-          label="manufacturer"
-          {...formMethodsEdit.register('manufacturer')}
-        />
-        <TextField
           error={!!formMethodsEdit.formState.errors['model']}
           helperText={formMethodsEdit.formState.errors['model']?.message}
-          label="model"
+          label="Модель"
           {...formMethodsEdit.register('model')}
         />
         <TextField
           error={!!formMethodsEdit.formState.errors['passengers']}
           helperText={formMethodsEdit.formState.errors['passengers']?.message}
-          label="passengers"
+          label="Пассажиры"
           {...formMethodsEdit.register('passengers')}
         />
-
+        <TextField
+          error={!!formMethodsEdit.formState.errors['manufacturer']}
+          helperText={formMethodsEdit.formState.errors['manufacturer']?.message}
+          label="Производитель"
+          {...formMethodsEdit.register('manufacturer')}
+        />
+        <TextField
+          error={!!formMethodsEdit.formState.errors['length']}
+          helperText={formMethodsEdit.formState.errors['length']?.message}
+          label="Длина"
+          {...formMethodsEdit.register('length')}
+        />
+        <TextField
+          error={!!formMethodsEdit.formState.errors['consumables']}
+          helperText={formMethodsEdit.formState.errors['consumables']?.message}
+          label="Расходные материалы"
+          {...formMethodsEdit.register('consumables')}
+        />
         <Button variant="contained" type="submit">Сохранить</Button>
+        <Button variant="outlined" onClick={onCancel}>Отмена</Button>
       </Stack>
     </form>
   )

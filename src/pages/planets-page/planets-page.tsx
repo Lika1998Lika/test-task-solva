@@ -5,7 +5,6 @@ import { columns } from "./lib/columns";
 
 export function PlanetsPage() {
   const { data, isLoading, error } = useGetPlanetsQuery('');
-
   if (error) {
     return <Alert>Сетевая ошибка</Alert>
   };

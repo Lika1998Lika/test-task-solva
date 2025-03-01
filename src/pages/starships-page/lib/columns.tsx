@@ -1,6 +1,13 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 
+// name: string;
+// consumables: string;
+// length: number | null;
+// manufacturer: string;
+// model: string;
+// passengers: number | null;
+
 export const columns: GridColDef[] = [
   {
     field:
@@ -12,7 +19,7 @@ export const columns: GridColDef[] = [
     },
   },
   { field: 'model', headerName: 'Модель', flex: 1 },
-  { field: 'manufacturer', headerName: 'Производитель', flex: 1 },
+  { field: 'consumables', headerName: 'Pасходные материалы', flex: 1 },
   { field: 'crew', headerName: 'Экипаж', flex: 1 },
   { field: 'length', headerName: 'Длина', flex: 1 },
 ];

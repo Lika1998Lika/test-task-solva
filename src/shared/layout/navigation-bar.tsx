@@ -4,9 +4,9 @@ import { AppRoute } from "../const";
 
 export function AppLayout() {
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack direction="row" spacing={1} sx={{ height: "100vh" }}>
 
-      <Box sx={{ backgroundColor: "#f0efef" }}>
+      <Box>
         <List sx={{ width: 160 }}>
           <ListItem component={NavLink} to={AppRoute.PlanetsPage}>
             <ListItemButton>
