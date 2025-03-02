@@ -1,1 +1,1 @@
-export {StarshipsPage} from './starships-page'
+export {StarshipsPage} from './ui/starships-page'

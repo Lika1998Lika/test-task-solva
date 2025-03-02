@@ -3,7 +3,7 @@ export type SpeciesType = {
   language: string;
   classification: string;
   designation: string;
-  average_lifespan: number | null;
-  average_height: number | null;
+  average_lifespan: number;
+  average_height: number;
 }
 

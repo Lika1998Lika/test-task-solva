@@ -6,4 +6,4 @@ yup.setLocale({
   },
 });
 
-export { yup }
+export { yup };

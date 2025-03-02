@@ -1,1 +1,1 @@
-export {PlanetsPage} from './planets-page';
+export {PlanetsPage} from './ui/planets-page';

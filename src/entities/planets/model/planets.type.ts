@@ -1,8 +1,8 @@
 export type PlanetsType = {
   name: string;
-  diameter: number | null;
+  diameter: number;
   climate: string;
   gravity: string;
-  population: number | null;
+  population: number;
   terrain: string;
 }

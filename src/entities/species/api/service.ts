@@ -14,8 +14,8 @@ export const speciesApi = createApi({
   reducerPath: 'species',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL}),
   endpoints: (builder) => ({
-    getSpecies: builder.query<SpeciesDTO, string>({
-      query: () => 'species',
+    getSpecies: builder.query<SpeciesDTO, number>({
+      query: (page) => `species?page=${page + 1}`,
       transformResponse: (response: SpeciesDTO) => {
         return {
           ...response,

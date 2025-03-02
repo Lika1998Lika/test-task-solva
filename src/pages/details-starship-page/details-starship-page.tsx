@@ -1,21 +1,17 @@
-import { useParams } from "react-router-dom"
 import { useGetStarshipByIdQuery } from "../../entities/starships/api/service";
-import { Alert, Box, Button, Container, Typography } from "@mui/material";
+import { Alert, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { EditStarshipForm } from "../../features/edit-starship";
 import { StarshipType } from "../../entities/starships";
 import { CircularProgressLoading } from "../../shared/lib/circular-progress";
 import { AppRoute } from "../../shared/const";
-import { ArrowBackIcon } from "../../shared/lib/arrow-back-icon";
+import { DetailsPageLayout } from "../../shared/layout/details-page-layout";
+import { useExtractIdFromParams } from "../../shared/lib/use-extractId-from-params";
 
 export function DetailsStarshipPage() {
   const [isEditing, setIsEditing] = useState(false);
 
-  const { id } = useParams();
-
-  if (!id) {
-    throw new Error('Planet id is undefind')
-  };
+  const id = useExtractIdFromParams();
 
   const { data, error, isLoading, isSuccess } = useGetStarshipByIdQuery(id);
 
@@ -38,8 +34,8 @@ export function DetailsStarshipPage() {
   };
 
   const onSubmit = (value: StarshipType) => {
-    setLocalData(value),
-      setIsEditing(false)
+    setLocalData(value)
+    setIsEditing(false)
   }
 
   const onCancel = () => {
@@ -47,27 +43,26 @@ export function DetailsStarshipPage() {
   };
 
   return (
-    <Container sx={{ height: "100vh", mt: 4 }}>
-      <ArrowBackIcon to={AppRoute.StarshipsPage} />
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 600, margin: "auto" }}>
-        {
-          isEditing && localData ? (
-            <EditStarshipForm starship={localData} onSubmit={onSubmit} onCancel={onCancel} />
-          ) : (
-            <>
-              <Typography variant="h5">Название: {localData?.name}</Typography>
-              <Typography variant="h5">Модель: {localData?.model} km</Typography>
-              <Typography variant="h5">Пассажиры: {localData?.passengers}</Typography>
-              <Typography variant="h5">Производитель: {localData?.manufacturer}</Typography>
-              <Typography variant="h5">Длина: {localData?.length}</Typography>
-              <Typography variant="h5">Расходные материалы: {localData?.consumables}</Typography>
-              <Button variant="contained" onClick={handleEditToggle}>
-                Редактировать
-              </Button>
-            </>
-          )
-        }
-      </Box>
-    </Container>
+    <DetailsPageLayout
+      backPath={AppRoute.StarshipsPage}
+    >
+      {
+        isEditing && localData ? (
+          <EditStarshipForm starship={localData} onSubmit={onSubmit} onCancel={onCancel} />
+        ) : (
+          <>
+            <Typography variant="h5">Название: {localData?.name}</Typography>
+            <Typography variant="h5">Модель: {localData?.model} km</Typography>
+            <Typography variant="h5">Пассажиры: {localData?.passengers}</Typography>
+            <Typography variant="h5">Производитель: {localData?.manufacturer}</Typography>
+            <Typography variant="h5">Длина: {localData?.length}</Typography>
+            <Typography variant="h5">Расходные материалы: {localData?.consumables}</Typography>
+            <Button variant="contained" onClick={handleEditToggle}>
+              Редактировать
+            </Button>
+          </>
+        )
+      }
+    </DetailsPageLayout>
   )
 }

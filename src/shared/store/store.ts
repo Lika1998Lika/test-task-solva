@@ -2,9 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import { planetsApi } from "../../entities/planets";
 import { speciesApi } from "../../entities/species/api/service";
 import { starshipsApi } from "../../entities/starships/api/service";
+import authReducer from '../../entities/auth-api/api/service';
 
 export const store = configureStore({
   reducer: {
+    auth: authReducer,
     [planetsApi.reducerPath]: planetsApi.reducer,
     [speciesApi.reducerPath]: speciesApi.reducer,
     [starshipsApi.reducerPath]: starshipsApi.reducer,

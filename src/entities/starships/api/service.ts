@@ -13,8 +13,8 @@ export const starshipsApi = createApi({
   reducerPath: 'starships',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL}),
   endpoints: (builder) => ({
-    getStarships: builder.query<StarshipsDTO, string>({
-      query: () => 'starships',
+    getStarships: builder.query<StarshipsDTO, number>({
+      query: (page) => `starships?page=${page + 1}`,
       transformResponse: (response: StarshipsDTO) => {
         return {
           ...response,

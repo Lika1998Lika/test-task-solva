@@ -1,8 +1,8 @@
 export type StarshipType = {
   name: string;
   consumables: string;
-  length: number | null;
+  length: number;
   manufacturer: string;
   model: string;
-  passengers: number | null;
+  passengers: number;
 };

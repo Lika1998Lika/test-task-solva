@@ -13,8 +13,8 @@ export const planetsApi = createApi({
   reducerPath: 'planets',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL}),
   endpoints: (builder) => ({
-    getPlanets: builder.query<PlanetsDTO, string>({
-      query: () => 'planets',
+    getPlanets: builder.query<PlanetsDTO, number>({
+      query: (page) => `planets?page=${page + 1}`,
       transformResponse: (response: PlanetsDTO) => {
         return {
           ...response,
@@ -25,7 +25,7 @@ export const planetsApi = createApi({
 
     getPlanetById: builder.query<PlanetsType, string>({
       query: (id: string) => `planets/${id}`,
-    })
+    }),
   }),
 })
 

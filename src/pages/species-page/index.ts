@@ -1,1 +1,1 @@
-export {SpeciesPage} from './species-page';
+export {SpeciesPage} from './ui/species-page';

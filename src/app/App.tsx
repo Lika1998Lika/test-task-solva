@@ -1,18 +1,22 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { NotFoundScreen } from "../pages/not-found-screen";
 import { AppRoute } from "../shared/const";
-import { PlanetsPage } from "../pages/planets-page";
-import { SpeciesPage } from "../pages/species-page";
-import { StarshipsPage } from "../pages/starships-page";
-import { AppLayout } from "../shared/layout/navigation-bar";
+import { AppLayout } from "../shared/layout/app-layout";
 import { DetailsPlanetPage } from "../pages/details-planet-page";
 import { DetailsSpicePage } from "../pages/details-spice-page";
 import { DetailsStarshipPage } from "../pages/details-starship-page";
+import { PlanetsPage } from "../pages/planets-page";
+import { SpeciesPage } from "../pages/species-page";
+import { StarshipsPage } from "../pages/starships-page";
+import { SignIn } from "../pages/sign-in";
+import { ProtectedRoute } from "../shared/layout/protected-route";
 
 function App() {
   return (
     <Routes>
-      <Route path={AppRoute.AppLayout} element={<AppLayout />}>
+      <Route path={AppRoute.SignIn} element={<SignIn />} />
+
+      <Route path={AppRoute.AppLayout} element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
         <Route index element={<Navigate to={AppRoute.PlanetsPage} />} />
 
         <Route path={AppRoute.PlanetsPage} element={<PlanetsPage />} />

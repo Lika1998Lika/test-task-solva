@@ -5,6 +5,6 @@ export const schema = yup.object().shape({
     language: yup.string().required().min(2, 'Минимальная длина 2 символов'),
     classification: yup.string().required().min(2, 'Минимальная длина 2 символов'), 
     designation: yup.string().required().min(2, 'Минимальная длина 2 символов'),
-    average_lifespan: yup.number().required().nullable(),
-    average_height: yup.number().required().nullable(),
+    average_lifespan: yup.number().required(),
+    average_height: yup.number().required(),
 })

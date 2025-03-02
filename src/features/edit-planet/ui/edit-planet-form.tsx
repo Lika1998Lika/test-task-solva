@@ -11,7 +11,7 @@ type Props = {
 };
 export const EditPlanetForm = ({ planet, onSubmit, onCancel }: Props) => {
 
-  const formMethodsEdit = useForm({
+  const formMethodsEdit = useForm<PlanetsType>({
     resolver: yupResolver(schema),
     defaultValues: planet,
   });
