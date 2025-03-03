@@ -10,7 +10,8 @@ import { Navigate } from "react-router-dom";
 import { AppRoute } from "../../../shared/const";
 
 export function SignIn() {
-  const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const { isAuthenticated, authError } = useSelector((state: RootState) => state.auth);
+
   const dispatch = useDispatch();
 
   const formMethodsEdit = useForm<SignInType>({
@@ -22,12 +23,13 @@ export function SignIn() {
   });
 
   const handleSubmit = formMethodsEdit.handleSubmit(({ login, password }) => {
-    dispatch(setLogin({ username: login, password }))
+    const res = dispatch(setLogin({ username: login, password }))
+    console.log(res)
   }, (err) => {
     console.log(err)
   });
 
-  if (isAuth) {
+  if (isAuthenticated) {
     return <Navigate to={AppRoute.AppLayout} />
   };
 
@@ -57,6 +59,7 @@ export function SignIn() {
             variant="outlined"
             {...formMethodsEdit.register('password')}
           />
+          {authError && <p style={{ color: "red" }}>{authError}</p>}
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
             Войти
           </Button>

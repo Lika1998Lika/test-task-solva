@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, List, ListItem, ListItemButton, ListItemText, Stack, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, List, ListItem, ListItemText, Stack, Toolbar, Typography } from "@mui/material";
 import { NavLink, Outlet } from "react-router-dom";
 import { AppRoute } from "../const";
 import { useDispatch } from "react-redux";
@@ -9,7 +9,7 @@ export function AppLayout() {
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar position="static" elevation={0}>
           <Toolbar>
             <Stack direction="row" justifyContent="space-between" width="100%">
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>Solva</Typography>
@@ -21,21 +21,15 @@ export function AppLayout() {
 
       <Stack direction="row" spacing={1} sx={{ height: "100vh" }}>
         <Box>
-          <List sx={{ width: 160 }}>
-            <ListItem component={NavLink} to={AppRoute.PlanetsPage}>
-              <ListItemButton>
-                <ListItemText primary='Планеты' />
-              </ListItemButton>
+          <List sx={{ width: 160, bgcolor: 'background.paper' }}>
+            <ListItem component={NavLink} to={AppRoute.PlanetsPage} sx={{ "&.active": { backgroundColor: "rgba(0, 0, 0, 0.1)" } }}>
+              <ListItemText primary='Планеты' sx={{ color: "black" }} />
             </ListItem>
-            <ListItem component={NavLink} to={AppRoute.SpeciesPage}>
-              <ListItemButton>
-                <ListItemText primary='Специи' />
-              </ListItemButton>
+            <ListItem component={NavLink} to={AppRoute.SpeciesPage} sx={{ "&.active": { backgroundColor: "rgba(0, 0, 0, 0.1)" } }}>
+              <ListItemText primary='Специи' sx={{ color: "black" }} />
             </ListItem>
-            <ListItem component={NavLink} to={AppRoute.StarshipsPage}>
-              <ListItemButton>
-                <ListItemText primary='Звездолеты' />
-              </ListItemButton>
+            <ListItem component={NavLink} to={AppRoute.StarshipsPage} sx={{ "&.active": { backgroundColor: "rgba(0, 0, 0, 0.1)" } }}>
+              <ListItemText primary='Звездолеты' sx={{ color: "black" }} />
             </ListItem>
           </List>
         </Box >

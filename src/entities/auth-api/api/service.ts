@@ -1,12 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const loadAuthState = () => {
-  const storedState = localStorage.getItem("authState");
-  return storedState ? JSON.parse(storedState) : { isAuthenticated: false };
+  const storedState = localStorage.getItem("isAuthenticated");
+  if(storedState) {
+    return JSON.parse(storedState)
+  };
 };
 
-const initialState = {
+const initialState: {
+  isAuthenticated: boolean,
+  authError: null | string
+} = {
   isAuthenticated: loadAuthState(),
+  authError: null, 
 };
 
 const authSlice = createSlice({
@@ -17,12 +23,17 @@ const authSlice = createSlice({
       const { username, password } = action.payload;
       if (username === "admin" && password === "password") {
         state.isAuthenticated = true;
-        localStorage.setItem("authState", JSON.stringify(state));
+        localStorage.setItem("isAuthenticated", 'true');
+        state.authError = null;
+      } else {
+        state.isAuthenticated = false;
+        state.authError = 'Неверный логин или пароль';
       }
     },
     logout: (state) => {
       state.isAuthenticated = false;
-      localStorage.removeItem("authState");
+      state.authError = null;
+      localStorage.removeItem("isAuthenticated");
     },
   },
 });
