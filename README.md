@@ -1,4 +1,4 @@
-### [Demo](https://app-chat-avce.onrender.com/)
+### [Demo](https://test-task-solva.vercel.app/)
 
 # Техническое задание для Solva
 ---
